@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #container {
+            display: flex;
+            flex-wrap: wrap;
+            flex-flow: column;
+        }
+        
+        #text1 {
+            width: 50%;
+        }
+        
+        #text2 {
+            width: 50%;
+            height: 50vh;
+            margin-top: 5px;
+        }
+        
+        #button1 {
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 20px;
+        }
+        
+        #button2 {
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <section id="container">
+        <article id="item"><input type="text" id="text1" placeholder="Escribir"></article>
+        <article id="item"><input type="button" id="button1" value="Guardar"></article>
+        <article id="item"><textarea id="text2" placeholder="Mensajes"></textarea></article>
+        <article id="item"><button id="button2">Borrar Mensajes</button></article>
+    </section>
+</body>
+
+<script>
+    window.onload = init();
+
+    function init() {
+        console.log("onload");
+        $button1 = document.querySelector('#button1');
+        $button2 = document.querySelector('#button2');
+        $text1 = document.querySelector("#text1");
+        $text2 = document.getElementById("text2");
+
+        $button1.addEventListener('click', saveMsg);
+        $button2.addEventListener('click', deleteMsg);
+        $text1.addEventListener('keypress', ifEnter)
+    }
+
+    function saveMsg() {
+        console.log("show");
+
+        if ($text1.value !== "") {
+            $text2.value += $text1.value + '\n';
+            $text1.value = "";
+        }
+    }
+
+    function deleteMsg() {
+        console.log("delete");
+        $text2.value = "";
+    }
+
+    function ifEnter(e) {
+        console.log("ifEnter");
+        if (e.keyCode === 13) {
+            saveMsg();
+        }
+    }
+</script>
+
+</html>
