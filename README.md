@@ -1,4 +1,7 @@
 # cfcreativa
 
 Notas de Laura 2020. 
-Fuente: AprendeJavascript.org por Jon Mircha.
+Fuentes: 
+
+- AprendeJavascript.org por Jon Mircha.
+- plataforma.josedomingo.org/pledin/cursos/flask/ 
