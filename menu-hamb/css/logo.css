@@ -1,0 +1,202 @@
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+
+/* HTML5 display-role reset for older browsers */
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+    display: block;
+}
+
+body {
+    line-height: 1;
+}
+
+ol,
+ul {
+    list-style: none;
+}
+
+blockquote,
+q {
+    quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+    content: '';
+    content: none;
+}
+
+.object {
+    position: absolute;
+    /** This css rule will make the object 
+move smoothly and animated **/
+    -webkit-transition: all 2s ease-in-out;
+    -moz-transition: all 2s ease-in-out;
+    -o-transition: all 2s ease-in-out;
+    /* Currently IE doesn't support for transition property http://www.w3schools.com/cssref/css3_pr_transition.asp */
+    /**
+		linear: The animation has the same speed from start to end.
+		ease: Default. The animation has a slow start, then fast, before it ends slowly.
+		ease-in: The animation has a slow start.
+		ease-out: The animation has a slow end.
+		ease-in-out: The animation has both a slow start and a slow end.
+		Credit Source: http://www.w3schools.com/cssref/css3_pr_animation-timing-function.asp
+	**/
+}
+
+
+/** Adjust objects position
+to the center of Axis **/
+
+.cfc1 {
+    height: 130px;
+    top: 55px;
+    left: 118px;
+}
+
+.circleAzul {
+    height: 100px;
+    top: 170px;
+    left: 35px;
+}
+
+.circleVerde {
+    height: 200px;
+    top: 20px;
+    left: 80px;
+}
+
+.circleNatural {
+    height: 100px;
+    top: 30px;
+    left: 260px;
+}
+
+*/
+/* HORIZONTALLY MOVEMENT */
+
+
+/* PREFIX 
+-webkit- is for Chrome & Safari;
+-o- is for Opera;
+-moz- is for Mozilla Firefox
+*/
+
+
+/** Moving object to the right **/
+
+#axis:hover .move-right {
+    transform: translate(350px, 0);
+    -webkit-transform: translate(350px, 0);
+    -o-transform: translate(350px, 0);
+    -moz-transform: translate(350px, 0);
+}
+
+
+/** Moving object to the left **/
+
+#axis:hover .move-left {
+    transform: translate(-350px, 0);
+    -webkit-transform: translate(-350px, 0);
+    -o-transform: translate(-350px, 0);
+    -moz-transform: translate(-350px, 0);
+}
+
+
+/** VERTICALLY MOVEMENT **/
+
+
+/** Moving object upwards**/
+
+#axis:hover .move-up {
+    transform: translate(0, -350px);
+    -webkit-transform: translate(0, -350px);
+    -o-transform: translate(0, -350px);
+    -moz-transform: translate(0, -350px);
+}
+
+
+/** Moving object downwards **/
+
+#axis:hover .move-down {
+    transform: translate(0, 350px);
+    -webkit-transform: translate(0, 350px);
+    -o-transform: translate(0, 350px);
+    -moz-transform: translate(0, 350px);
+}
+
+
+/** DIAGONALLY MOVEMENT **/
+
+
+/** Move object diagonally (Northeast) **/
+
+#axis:hover .move-ne {
+    transform: translate(350px, -350px);
+    -webkit-transform: translate(350px, -350px);
+    -o-transform: translate(350px, -350px);
+    -moz-transform: translate(350px, -350px);
+}
+
+
+/** ROTATION **/
+
+
+/** Rotate Object 360 clockwise**/
+
+#axis:hover .rotate360cw {
+    transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+}
+
+
+/** Rotate Object 360 counter clockwise **/
+
+#axis:hover .rotate360ccw {
+    transform: rotate(-360deg);
+    -webkit-transform: rotate(-360deg);
+    -o-transform: rotate(-360deg);
+    -moz-transform: rotate(-360deg);
+}
+
+
+/** Scale **/
+
+#axis:hover .scale {
+    transform: scale(2);
+    -webkit-transform: scale(2);
+    -o-transform: scale(2);
+    -moz-transform: scale(2);
+}
+
+
+/** Multiple **/
+
+#axis:hover .multiple {
+    transform: translate(350px, -350px) rotate(360deg);
+    -webkit-transform: translate(350px, -350px) rotate(360deg);
+    -o-transform: translate(350px, -350px) rotate(360deg);
+    -moz-transform: translate(350px, -350px) rotate(360deg);
+}
