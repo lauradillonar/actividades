@@ -1,0 +1,56 @@
+   #container301 {
+       margin-top: 30px;
+       text-align: center;
+   }
+   
+   #container302 {
+       margin-top: 30px;
+       text-align: center;
+   }
+   
+   .grid3 {
+       display: inline-grid;
+       grid-template-columns: 110px;
+       grid-template-rows: repeat(4, 50px);
+       justify-content: center;
+       align-items: center;
+       row-gap: 2px;
+       column-gap: 2px;
+   }
+   
+   .text3 {
+       background-color: var(--natural-color);
+       color: var(--white);
+       width: 70px;
+       text-align: center;
+       padding: 10px;
+       border-radius: 5px;
+   }
+   
+   #button3 {
+       padding: 10px;
+       margin-top: 5px;
+       margin-left: 20px;
+       background-color: var(--second-modal-color);
+       color: antiquewhite;
+       border-radius: 5px;
+   }
+   
+   #delButton {
+       padding: 10px;
+       margin-top: 5px;
+       margin-left: -40px;
+       background-color: var(--second-modal-color);
+       color: antiquewhite;
+       border-radius: 5px;
+   }
+   
+   #msg3 {
+       border: 1px solid var(--main-color);
+       border-radius: 5px;
+       padding: 10px;
+   }
+   
+   .msg3 {
+       margin-right: 20px;
+   }
