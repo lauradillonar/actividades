@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Cuenta letra en palabra</title>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <header>
+        <h1>Actividad 1</h1>
+        <p>Hacer una función que cuente la cantidad de apariciones de una letra dada en una palabra.</p>
+    </header>
+    
+        {% if word %}
+            {% if valid %}
+                <h2>Palabra: {{word}}</h2>
+                <h2>Letra: {{letter}}</h2>
+                <p>La letra {{letter}} está {{times}}{% if times==1 %} vez {% else %} veces {% endif %}en {{word}}</p>
+            {% else %}
+                No se ha indicado una letra.
+            {% endif %}
+        {% else %}
+            <p>No se ha indicado una palabra</p>
+        {% endif %}
+</body>
+</html>
