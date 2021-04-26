@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <title>Diccionario de enlaces</title>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <header>
+            <h2>Enlaces</h2>
+        </header>
+        {% if enlaces %}
+            <ul>
+                {% for enlace in enlaces -%}
+                    <li><a href="{{enlace.url}}">{{enlace.texto}}</a></li>
+                {% endfor -%}
+            </ul>
+        {% else %}
+            <p>No hay enlaces.</p>
+        {% endif %}
+    </body>
+</html>

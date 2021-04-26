@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Suma</title>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <header>
+        <h1>Cómo enviar varias variables a la plantilla</h1>
+    </header>
+    {% if resultado>=0 %}
+        <p>El resultado es positivo</p>
+    {% else %}
+        <p>El resultado es negativo</p>
+    {% endif %}
+    <h3>{{num1}} más {{num2}} es {{resultado}}</h3>
+</body>
+</html>
