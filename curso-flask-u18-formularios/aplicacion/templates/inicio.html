@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}Prueba{% endblock  %}
+{% block contenido %}
+    <h2>Actividades con formularios</h2>
+    <ul>
+        <li><a href="{{url_for('calculadora_post')}}">Caculadora con POST</a></li>
+        <li><a href="{{url_for('calculadora_get')}}">Calculadora con GET</a></li>
+        <li><a href="{{url_for('calculadora_var', operador="+", num1=3, num2=4)}}">Suma con parámetros variables</a></li>
+        <li><a href="{{url_for('formulario')}}">Formulario completo</a></li>
+    </ul>
+{% endblock  %}
