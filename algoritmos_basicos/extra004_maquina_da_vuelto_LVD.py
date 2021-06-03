@@ -1,6 +1,3 @@
-# actividad 1: interpretar un código
-# actividad 2: elegir un ejercicio a resolver: palíndormos
-# actividad 3: POO con qué entidades modelaría un problema
 # actividad 4: cajero automático. Cómo entregaría el cambio.
 # Ingresa el billete y paga un monto. Devuelve cambio. 
 # Ver los distintos valores de billetes e ir descontando. 
