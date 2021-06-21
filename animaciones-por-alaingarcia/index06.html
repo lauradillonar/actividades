@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Crear objetos y animarlos en Canvas</title>
+</head>
+<body>
+<canvas id="canvas" width="750" height="300" style="border:3px solid #ccc;">
+Tu navegador no soporta canvas
+</canvas>
+<script type="module">
+
+function animacion_con_canvas() 
+// creamos la función  animacion_con_canvas 
+{
+
+  const mi_canvas = document.getElementById("canvas");
+  // el elemento bautizado "canvas"  sera usado para crear la animaciòn 
+  
+  const contexto = mi_canvas.getContext("2d");
+  // creamos el contexto para poder animar en canvas 
+  // canvas soporta animaciones en 2d y en 3d, en este ejemplo usaremos animaciones 2d 
+
+
+  let array_para_bolitas = [];
+  // se crearan varios objetos con difefente velocidad, posición en x y posición en y
+  // la información de cada objeto se almacenará en un array
+
+
+  let img_bolita_roja = new Image();
+  // creamos un objeto del tipo imagen 
+  //  Como todo objeto tiene propiedades métodos y eventos 
+
+  img_bolita_roja.src = "./img/k.png";
+  // con la propiedad src definimos la imagen a cargar. DEBE ESCRIBIRSE LA RUTA CORRECTA A LA IMAGEN 
+
+
+  img_bolita_roja.addEventListener('load', iniciar_animacion, false);
+  // para poder mostrar la imagen, primero debe cargarse... 
+  // la imagen tienen el evento load, que se produce cuando la imagen se ha descargado en el navegador 
+  // el método EventListener permite verificar cuando la imagen se ha cargado 
+  // cuando la imagen se ha cargado ejecutaremos la función mostrar_imagen, que mostrará la imágen en el canvas 
+  // el método EventListener utiliza las variables:
+  // (evento, función a ejecutar, indica si se desea iniciar el registro del evento) 
+
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+// función para crear objetos
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+  function crea_bolita(velocidad, x_pos, y_pos) 
+  // función para crear objetos
+  // cada objeto puede tener propiedades, métodos y eventos
+  {
+  
+    this.velocidad = velocidad;
+    // cada objeto tendra una velocidad única
+  
+    this.x_pos = x_pos;
+    // cada objeto tendra una posición en x única
+  
+    this.y_pos = y_pos;
+    // cada objeto tendra una posición en y única 
+    
+  }
+  
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+// crea un método para el objeto
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+
+  crea_bolita.prototype.mover_bolita = function() 
+  // crea un método para la clase / objeto
+  // este método moverá los objetos a lo largo del plano de x
+  {
+    
+    if(this.x_pos<750)
+    // si la posición del objeto es menor a 750
+    {
+      this.x_pos = this.x_pos + this.velocidad;
+      // mueve el objeto en el plano de x acorde a su velocidad
+    }
+    else
+    // si la posición del objeto es mayor a 750
+    {
+      this.x_pos = 0;
+      // mueve el objeto a la posición 0 en el plano de x
+      
+      this.y_pos = Math.round(Math.random() * 300);
+      // mueve el objeto en el plano de y a una posición única  
+    }
+    
+    contexto.drawImage(img_bolita_roja, this.x_pos, this.y_pos);
+    // aqui utilizamo el método drawimage para mostrar a nuestra imagen dentro del canvas 
+    // el método drawimage utiliza las variables  (imagen a cargar, posición en x, posición en y) 
+    // el método drawimage se puede usar indistintamente para cargar imágenes jpg, png o svg 
+    // aquí la posición en x cambiará dinámicamente 
+    // aquí la posición en y cambiará dinámicamente     
+       
+  
+  };
+
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+// funcion para crear varios objetos a partir de nuestra clase
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+  function crear_varias_bolitas() 
+  {
+    for (let i = 0; i < 10; i++)
+    // con un loop crearemos varios objetos
+    {
+    
+      let x_posicion_al_azar = Math.round(Math.random() * 750);
+      // cada objeto  tendrá una posición en x al azar
+      
+      let y_posicion_al_azar = Math.round(Math.random() * 300);
+      // cada objeto tendrá una posición en y al azar
+      
+      let velocidad_al_azar = 0.2 + Math.random() * 3;
+      // cada objeto tendrá una velocidad al azar
+    
+      let bolita_creada = new crea_bolita(velocidad_al_azar, x_posicion_al_azar, y_posicion_al_azar);
+      // se crea un nuevo objeto 
+      
+      array_para_bolitas.push(bolita_creada);
+      // almacenamos la información del objeto creado en un array
+    }
+  
+    animar_bolitas();
+    // tras crear los objetos, comenzamos a animarlos con la función animar_bolitas()
+  }
+
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+// funcion para iniciar la animación
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+  function iniciar_animacion() 
+  {
+
+    crear_varias_bolitas();
+    // ejecutamos la función crear_varias_bolitas()
+    // con esa función creamos varios objetos
+  }
+  
+  
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+// creamos una función para animar los objetos
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+
+  function animar_bolitas() 
+  {
+
+    contexto.fillStyle = "#ffffff";
+    // contexto es un objeto. Como todo objeto tiene propiedades métodos y eventos 
+    // aqui utilizamo la propiedad fillStyle para definir el color de fondo de objeto a dibujar 
+
+    contexto.fillRect(0, 0, 750, 300);
+    // aqui utilizamo el método fillRect para crear un rectángulo 
+    // el método fillRect utiliza las variables  (posición en x, posición en y, ancho, alto) 
+    // creamos un rectangulo para borrar el fondo 
+    // CANVAS crea animaciones cuadro por cuadro, frame by frame. 
+    // 100 años después se sigue usando el mismo método para animar. 
+    // Se dibuja un cuadro. Se dibuja otro cuadro. Se dibuja otro cuadro. Y así hasta el infinito. 
+    // El secreto está en mostrar sucesivamente esos cuadros para crear la ilusión de animación.  
+    // El método RequestAnimationFrame() intenta mostrar 60 cuadros por segundo. ¡Más rápido que el cine! 
+    // creamos un rectangulo para borrar el cuadro dibujado previamente por CANVAS 
+
+
+    for (let i = 0; i < array_para_bolitas.length; i++) 
+    // para cada una de los objetos creados...
+    {
+      let bolita_a_animar = array_para_bolitas[i];
+      // elegimos el objeto a animar desde nuestro array con objetos
+    
+      bolita_a_animar.mover_bolita();
+      // movemos el objeto con el método mover
+    }
+  
+    const fx_animar_bolitas = requestAnimationFrame(animar_bolitas);  
+    // invocamos la función requestAnimationFrame 
+    // requestAnimationFrame intenta ejecutar una función 60 veces por segundo 
+    // en este caso ejecutará la función animar_bolitas
+    // el método requestAnimationFrame utiliza las variables (función a ejecutar) 
+
+
+  
+  }
+  
+}
+
+animacion_con_canvas();
+// cuando la página se cargue, ejecutarmos la función  animacion_con_canvas(); 
+
+</script>
+
+</body>
+</html>

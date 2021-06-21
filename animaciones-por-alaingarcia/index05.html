@@ -1,0 +1,418 @@
+<!doctype html> 
+<html lang="en"> 
+<head> 
+<meta charset="UTF-8"> 
+<title>Animaciones Sucesivas</title> 
+</head> 
+<body> 
+<canvas id="canvas" width="450" height="202" style="cursor:pointer; border:3px solid #ccc; cursor:pointer;"> 
+Tu navegador no soporta canvas 
+</canvas> 
+
+<script type="module"> 
+
+
+
+function animacion_con_canvas() 
+{ 
+
+   const mi_canvas = document.getElementById("canvas");
+   // el elemento bautizado "canvas"  sera usado para crear la animaciòn
+  
+   const contexto = mi_canvas.getContext("2d");
+   // creamos el contexto para poder animar en canvas
+   // canvas soporta animaciones en 2d y en 3d, en este ejemplo usaremos animaciones 2d
+  
+    // creamos varios objetos del tipo imagen 
+    let img_fondo = new Image(); 
+    let img_palomita = new Image(); 
+    let img_encuesta = new Image(); 
+    let img_clima = new Image(); 
+    let img_fecha = new Image(); 
+    let img_participa = new Image(); 
+  
+    // con la propiedad src definimos la imagen a cargar. DEBE ESCRIBIRSE LA RUTA CORRECTA A LA IMAGEN 
+    img_fondo.src ="./img/00.png"; 
+    img_palomita.src ="./img/01.png"; 
+    img_encuesta.src ="./img/02.png"; 
+    img_clima.src ="./img/03.png"; 
+    img_fecha.src ="./img/04.png"; 
+    img_participa.src ="./img/05.png"; 
+  
+  
+  
+    let intro_alpha  =0; 
+    // el alpha / transparencia original será 0, completamente transparente
+  
+    let alpha_velocidad = 0.0166666666667; 
+    // velocidad para aparecer 
+    // requestAnimationFrame muestra 60 frames por segundo 
+    // 60 frames = 1 segundo 
+    // 600 frames = 10 segundos 
+    // 1 (alpha full) / 180 (frames _ 3 segundos) =  0.0055555556 
+    // 1 (alpha full) / 60 (frames por segundo) = 0,0166666666667
+   
+     
+  
+    let pausa_en_stage = 5000; 
+    // velocidad para mostrarse en pantalla  una imagen estática
+  
+  
+    let timeout_imagen_estatica;
+    // creamos una variable que reiniciara las cuentas regresivas
+  
+  
+    img_participa.addEventListener('load', iniciar_animacion, false); 
+    // valida que la imagen se haya cargado 
+    // ejecuta la función iniciar_animacion 
+  
+    function iniciar_animacion() 
+    { 
+      intro_in(); 
+      // ejecuta la funcion intro_in 
+    } 
+     
+  
+  // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+  // muestra fondo, una imagen se mostrará siempre como fondo
+  // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+  
+    function muestra_fondo() 
+    { 
+        contexto.fillStyle = "#ffffff"; 
+        // borra el fondo 
+    
+        contexto.fillRect(0, 0, 450, 202); 
+        // crea un rectangulo para borrar el fondo 
+    
+        contexto.drawImage(img_fondo, 0, 0); 
+         
+        contexto.drawImage(img_palomita, 309, 21);   
+    } 
+  
+  
+  // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+  // creamos la primera escena
+  // simplemente muestra una transición de una imagen de alpha 0 a 1
+  // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+  
+   
+    function intro_in() 
+    { 
+        const intro_in_fx = requestAnimationFrame(intro_in); 
+        // invocamos la función requestAnimationFrame 
+        // requestAnimationFrame intenta ejecutar una función 60 veces por segundo 
+        // en este caso ejecutará la función intro_in
+        // el método requestAnimationFrame utiliza las variables (función a ejecutar) 
+    
+         
+        muestra_fondo(); 
+        // mostramos la imagen que siempre usaremos de fondo
+         
+        contexto.save(); 
+        // guarda el canvas como esta, con el fondo en pantalla
+        // "crearemos" un segundo canvas al que aplicaremos cambios 
+    
+        contexto.globalAlpha = intro_alpha; 
+        // le aplicamos un alpha a nuestro canvas, al inicio será 0
+        // el alpha se incrementará gradualmente
+         
+        contexto.drawImage(img_encuesta, 15, 63); 
+        // en nuestro canvas con un alpha modificado  mostramos una imagen
+     
+        contexto.drawImage(img_clima, -1, 102);    
+        // en nuestro canvas con un alpha modificado  mostramos otra imagen
+    
+        intro_alpha = intro_alpha + alpha_velocidad; 
+        // aumentamos el alpha para el siguiente frame 
+     
+        contexto.restore(); 
+        // despues de hacer los cambios 
+        // restauramos y mezclamos el canvas guardado 
+        // el resultado es que combinamos dos canvas: uno con alpha 0 y otro con alpha 1
+    
+    
+        if(intro_alpha > 1) 
+        // si la imagen es completamente visible
+        { 
+    
+            intro_alpha = 0;
+            // restauramos el alpha original, pues crearemos un loop infinito
+      
+       
+            window.cancelAnimationFrame(intro_in_fx); 
+            // elimina el requestanimationframe que creo la primnera escena / transición
+             
+            intro_estatica(); 
+            // muestra las cosas sin movimiento... 
+    
+        } 
+         
+    } 
+  
+  
+  
+  // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+  // creamos la primera escena
+  // simplemente muestra tres imagen fijas con un alpha 1, completamente visible
+  // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+  
+  
+    function intro_estatica() 
+    { 
+  
+        muestra_fondo(); 
+        // mostramos la imagen que siempre usaremos de fondo
+             
+        contexto.drawImage(img_encuesta, 15, 63); 
+        // mostramos la segunda imagen con un alpha = 1
+       
+        contexto.drawImage(img_clima, -1, 102);    
+        // mostramos la tercera imagen con un alpha = 1
+    
+        timeout_imagen_estatica = window.setTimeout(kill_timeout_intro_estatica, pausa_en_stage); 
+        // creamos una cuenta regresiva
+        // en 5 segundos se ejecutara kill_timeout_intro_estatica()
+        // setTimeout(función a ejecutarse, en cuanto tiempo) 
+     
+    } 
+  
+  // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+  // una vez que pasaron 5 segundos, eliminamos la cuenta regresiva
+  // iniciamos la siguiente escena
+  // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+  
+    function kill_timeout_intro_estatica() 
+    { 
+     
+        window.clearTimeout(timeout_imagen_estatica); 
+        // destruye la cuenta regresiva
+         
+         
+        fecha_in(); 
+        // ejecuta la  función fecha_in()
+        // para iniciar la siguiente escena
+        
+       
+    } 
+     
+  
+  // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+  // creamos la tercera escena
+  // simplemente muestra una transición de una imagen de alpha 0 a 1
+  // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+   
+  
+    function fecha_in() 
+    { 
+     
+      const fx_fecha_in = requestAnimationFrame(fecha_in); 
+           
+     
+      muestra_fondo(); 
+      // mostramos la imagen que siempre usaremos de fondo
+           
+      contexto.save(); 
+      // guarda el canvas como esta, con el fondo en pantalla
+      // "crearemos" un segundo canvas al que aplicaremos cambios 
+  
+      contexto.globalAlpha = intro_alpha;
+      // le aplicamos un alpha a nuestro canvas, al inicio será 0
+      // el alpha se incrementará gradualmente
+      
+         
+      contexto.drawImage(img_fecha, 21, 44); 
+     
+       
+      intro_alpha = intro_alpha + alpha_velocidad; 
+      // en nuestro canvas con un alpha modificado  mostramos una imagen
+     
+      contexto.restore(); 
+      // despues de hacer los cambios 
+      // restauramos y mezclamos el canvas guardado 
+      // el resultado es que combinamos dos canvas: uno con alpha 0 y otro con alpha 1
+  
+  
+      if(intro_alpha > 1)
+      // si la imagen es completamente visible
+      { 
+  
+        intro_alpha = 0;
+        // restauramos el alpha original, pues crearemos un loop infinito
+         
+        window.cancelAnimationFrame(fx_fecha_in); 
+        // elimina el requestanimationframe que creo la tercera escena / transición
+         
+        fecha_estatica(); 
+        // muestra las cosas sin movimiento... 
+  
+      } 
+       
+    } 
+  
+  
+  // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+  // intro fecha estática 
+  // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+  
+  
+    function fecha_estatica() 
+    { 
+      muestra_fondo(); 
+      // mostramos la imagen que siempre usaremos de fondo
+           
+      contexto.drawImage(img_fecha, 21, 44); 
+      // mostramos la segunda imagen con un alpha = 1
+     
+      timeout_imagen_estatica = window.setTimeout(kill_fecha_estatica, pausa_en_stage); 
+      // creamos una cuenta regresiva
+      // en 5 segundos se ejecutara kill_fecha_estatica()
+      // setTimeout(función a ejecutarse, en cuanto tiempo) 
+     
+  
+    } 
+  
+  
+  // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+  // una vez que pasaron 5 segundos, eliminamos la cuenta regresiva
+  // iniciamos la siguiente escena
+  // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+  
+  
+    function kill_fecha_estatica() 
+    { 
+     
+      window.clearTimeout(timeout_imagen_estatica); 
+      // destruye la cuenta regresiva
+       
+      participa_in(); 
+      // ejecuta la  función participa_in()
+      // para iniciar la siguiente escena
+       
+    } 
+  
+  
+  
+  // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+  // creamos la quinta escena
+  // simplemente muestra una transición de una imagen de alpha 0 a 1
+  // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+  
+  
+    function participa_in() 
+    { 
+     
+      const fx_participa_in = requestAnimationFrame(participa_in); 
+      // invocamos la función requestAnimationFrame 
+      // requestAnimationFrame intenta ejecutar una función 60 veces por segundo 
+      // en este caso ejecutará la función participa_in
+      // el método requestAnimationFrame utiliza las variables (función a ejecutar) 
+  
+  
+      muestra_fondo(); 
+      // mostramos la imagen que siempre usaremos de fondo
+           
+      contexto.save(); 
+      // guarda el canvas como esta 
+      // "crearemos" un segundo canvas al que aplicaremos cambios 
+  
+  
+      contexto.globalAlpha = intro_alpha;
+      // le aplicamos un alpha a nuestro canvas, al inicio será 0
+      // el alpha se incrementará gradualmente
+      
+       
+      contexto.drawImage(img_participa, 10, 74); 
+      // en nuestro canvas con un alpha modificado  mostramos una imagen
+  
+      intro_alpha = intro_alpha + alpha_velocidad; 
+      // aumentamos el alpha para el siguiente frame 
+  
+      contexto.restore(); 
+      // despues de hacer los cambios 
+      // restauramos y mezclamos el canvas guardado 
+      // el resultado es que combinamos dos canvas: uno con alpha 0 y otro con alpha 1
+  
+  
+      if(intro_alpha > 1) 
+      // si la imagen es completamente visible
+      { 
+  
+        intro_alpha = 0;
+        // restauramos el alpha original, pues crearemos un loop infinito
+         
+        window.cancelAnimationFrame(fx_participa_in); 
+        // elimina el requestanimationframe que creo la primnera escena / transición
+         
+        participa_estatica(); 
+        // muestra las cosas sin movimiento... 
+  
+      } 
+       
+    } 
+  
+  // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+  // creamos la sexta escena
+  // simplemente muestra una imagen fija
+  // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+  
+  
+    function participa_estatica() 
+    { 
+      muestra_fondo();
+      // mostramos el fondo 
+           
+      contexto.drawImage(img_participa, 10, 74); 
+      // mostramos la imagen con un alpha = 1
+     
+      timeout_imagen_estatica = window.setTimeout(kill_participa_estatica, pausa_en_stage); 
+      // creamos una cuenta regresiva
+      // en 5 segundos se ejecutara kill_fecha_estatica()
+      // setTimeout(función a ejecutarse, en cuanto tiempo) 
+       
+    } 
+  
+  
+  // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+  // una vez que pasaron 5 segundos, eliminamos la cuenta regresiva
+  // iniciamos la siguiente escena
+  // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+  
+    function kill_participa_estatica() 
+    { 
+     
+      window.clearTimeout(timeout_imagen_estatica); 
+      // destruye la cuenta regresiva
+       
+       
+      intro_in(); 
+      // ejecuta la  función intro_in()
+      // para iniciar la siguiente escena 
+      // en los hechos se repite la primera escena para crear un loop infinito
+       
+    } 
+  
+  
+  // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+  // cuando la gente haga click en el canvas, visitaremos una página
+  // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+  
+    function al_hacer_click(e) 
+    { 
+      window.location.href = 'http://www.alaingarcia.net/'; 
+    } 
+   
+    mi_canvas.addEventListener("click", al_hacer_click, false); 
+    // crea un evento click para el canvas
+    // cuando la gente haga click
+    // ejecutaremos la función al_hacer_click()
+     
+} 
+
+animacion_con_canvas();
+// una vez que se ha cargado la página, iniciamos la animación
+
+</script> 
+
+</body> 
+</html>

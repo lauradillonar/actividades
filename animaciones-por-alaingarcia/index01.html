@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+
+<canvas id="canvas" width="450" height="202" style="border:3px solid #ccc;">
+Tu navegador no soporta canvas
+</canvas>
+
+
+<script type="module">
+
+
+function animacion_con_canvas() 
+// creamos la función  animacion_con_canvas
+{
+
+	const mi_canvas = document.getElementById("canvas");
+	// el elemento bautizado "canvas"  sera usado para crear la animaciòn
+
+	const contexto = mi_canvas.getContext("2d");
+	// creamos el objeto contexto para poder animar en canvas
+	// contexto es un objeto. Como todo objeto tiene propiedades métodos y eventos
+	// canvas soporta animaciones en 2d y en 3d, en este ejemplo usaremos animaciones 2d
+
+}
+
+animacion_con_canvas();
+// cuando la página se cargue, ejecutaremos la función  animacion_con_canvas();
+
+</script>
+
+</body>
+</html>

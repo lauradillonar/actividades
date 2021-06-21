@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Crear objetos y animarlos en Canvas</title>
+<script type="module"> 
+
+function animacion_con_canvas() 
+// creamos la función  animacion_con_canvas 
+{ 
+
+  const mi_canvas = document.getElementById("canvas");
+  // el elemento bautizado "canvas"  sera usado para crear la animaciòn 
+  
+  const contexto = mi_canvas.getContext("2d");
+  // creamos el contexto para poder animar en canvas 
+  // canvas soporta animaciones en 2d y en 3d, en este ejemplo usaremos animaciones 2d 
+
+
+  let img_sprite = new Image(); 
+  // creamos un objeto del tipo imagen 
+  //  Como todo objeto tiene propiedades métodos y eventos 
+
+  img_sprite.src ="./img/epn_sprite.png"; 
+  // con la propiedad src definimos la imagen a cargar. DEBE ESCRIBIRSE LA RUTA CORRECTA A LA IMAGEN 
+  // en este caso cargamos el sprite con la animación cuadro por cuadro
+
+  img_sprite.addEventListener('load', mostrar_imagen, false); 
+// para poder mostrar la imagen, primero debe cargarse... 
+// la imagen tienen el evento load, que se produce cuando la imagen se ha descargado en el navegador 
+// el método EventListener permite verificar cuando la imagen se ha cargado 
+// cuando la imagen se ha cargado ejecutaremos la función mostrar_imagen, que mostrará la imágen en el canvas 
+// el método EventListener utiliza las variables (evento, función a ejecutar, indica si se desea iniciar el registro del evento) 
+
+  let cuadro_del_sprite = 0;
+// esta variable la usaremos para registrar que cuadro del sprite estamos usando
+// el sprite tiene una secuencia de imagenes que darán la ilusión de movimiento
+// el sprite puede dividirse en cuadros / frames
+// el sprite lo dividimos de izquierda a derecha. el primer cuadro se localizará del lado izquierdo
+// el último cuadro estará en el extremo derecho del sprite
+// cada cuadro / frame indica una parte de la secuencia de imagenes que darán la ilusión de movimiento
+// iniciaremos la animación con el primer cuadro / frame
+  
+  let cuadros_por_segundo = 0;
+// esta variable la usaremos para determinar cuantos cuadros / frames del sprite mostaremos por segundo
+
+
+  let xpos = 0; 
+// posicion inicial de nuesto objeto a animar dentro del canvas
+// ademas de animar el sprite, animaremos el sprite dentro del canvas
+   
+  let velocidad = 0.16; 
+// ademas de animar el sprite, animaremos el sprite dentro del canvas
+// cuantos pixeles en 0.016 segundos avanzara nuestro objeto a animar
+// IMPORTANTE: requestAnimationFrame() se ejecuta 60 veces por segundo  
+// aqui el objeto se animará 10 pixeles por segundo
+// 0.16 = 10 pixeles por segundo / 60 veces por segundo que se ejecuta requestAnimationFrame()
+// si queremos que nuesto objeto se mueva más rápido o lento, solo tenemos que modificar la velocidad
+
+
+  function mostrar_imagen() 
+// creamos la función  mostrar_imagen para mostrar la imagen en el canvas 
+// esta función se ejecuta cuando la imagen se ha cargado 
+  { 
+  
+    const fx_animar_imagen = requestAnimationFrame(mostrar_imagen); 
+// invocamos la función requestAnimationFrame
+// requestAnimationFrame intenta ejecutar una función 60 veces por segundo
+// en este caso ejecutará la función animar_imagen
+// el método requestAnimationFrame utiliza las variables (función a ejecutar)
+    
+    contexto.fillStyle = "#ffffff"; 
+// contexto es un objeto. Como todo objeto tiene propiedades métodos y eventos 
+// aqui utilizamo la propiedad fillStyle para definir el color de fondo de objeto a dibujar 
+
+    contexto.fillRect(0, 0, 1000, 300); 
+// aqui utilizamo el método fillRect para crear un rectángulo 
+// el método fillRect utiliza las variables  (posición en x, posición en y, ancho, alto) 
+// creamos un rectangulo para borrar el fondo 
+// CANVAS crea animaciones cuadro por cuadro, frame by frame. 
+// 100 años después se sigue usando el mismo método para animar. 
+// Se dibuja un cuadro. Se dibuja otro cuadro. Se dibuja otro cuadro. Y así hasta el infinito. 
+// El secreto está en mostrar sucesivamente esos cuadros para crear la ilusión de animación.  
+// El método RequestAnimationFrame() intenta mostrar 60 cuadros por segundo. ¡Más rápido que el cine! 
+// creamos un rectangulo para borrar el cuadro dibujado previamente por CANVAS 
+
+    contexto.drawImage(img_sprite, 100*cuadro_del_sprite, 0,100,100,xpos,0,100,100);
+// esta linea de código hace la magia de animar el sprite
+// aqui utilizamo el método drawimage para mostrar a nuestra imagen dentro del canvas 
+// con los parametros adecuados podemos mostrar solo una parte del sprite
+// con los parámetros adecuados podemos mostrar un cuadro / frame de nuestro sprite
+// el método drawimage utiliza las variables: 
+  //a) imagen a cargar: img_sprite 
+  //b) posición en x dentro del sprite:  100*cuadro_del_sprite 
+   // (cada cuadro /frame tiene un ancho de 100 pixeles)
+   // cuadro_del_sprite es una variable que almacena que cuadro /frame de nuestro sprite estamos usando
+  //c) posición en y dentro del sprite: 0 
+      //(nuestro sprite solo tiene una fila de cuadros / frames)
+  //d) tamaño en x dentro del sprite: 100 
+    //(el sprite lo podemos recortar, aque definimos el tamaño del recorte: 100 pixeles de ancho)
+  //e) tamaño en y dentro del sprite: 100 
+     // (el sprite lo podemos recortar, aque definimos el tamaño del recorte: 100 pixeles de alto) 
+  //f) posición en x dentro del canvas: xpos
+    // adicionalmente animaremos el sprite dentro del canvas, 
+    // xpos almacena dinámicamente la posición en x dentro del canvas
+  //g) posición en y dentro del canvas: 0
+    // la posicion en y de nuestro sprite dentro del canvas
+  //h) tamaño en x dentro del canvas: 100 (en el canvas el sprite tendrá un tamaño de 100 pixeles de ancho)
+  //i) tamaño en y dentro del canvas: 100 (en el canvas el sprite tendrá un tamaño de 100 pixeles de alto)
+// el método drawimage se puede usar indistintamente para cargar imágenes jpg, png o svg 
+
+
+    xpos = xpos + velocidad; 
+// aumentamos el valor de xpos  con el valor de velocidad 
+     
+
+    cuadros_por_segundo++;
+// esta variable la usaremos para determinar cuantos cuadros / frames del sprite mostaremos por segundo   
+// cada que se ejecute requestAnimationFrame aumentará en 1 el valor de cuadros_por_segundo
+    
+    if(cuadros_por_segundo%3==0)
+// en este ejemplo nuestro sprite sólo tiene 12 cuadros / frames
+// requestAnimationFrame intenta ejecutar una función 60 veces por segundo
+// debemos reducir la velocidad de la animación frame by fram / cuadro por cuadro de nuestro sprite
+// cuadros_por_segundo la usaremos para determinar cuantos cuadros / frames del sprite mostaremos por segundo   
+// si cuadro cuadros_por_segundo es múltiplo de 3, mostraremos un cuadro / frame diferente del sprite
+// en un segundo mostraremos 20 cuadros / frames de nuestro sprite
+// sin esta línea de código en un segundo mostraríamos 60 cuadros / frames de nuestro sprite...
+    {
+        cuadro_del_sprite++;
+        // esta variable la usaremos para registrar que cuadro / frame del sprite estamos usando
+        // si cuadro cuadros_por_segundo es múltiplo de 3, mostraremos un cuadro / frame diferente del sprite
+        if (cuadro_del_sprite >11) 
+        // este sprite tiene 12 cuadros / frames
+        // cuando llegue al último frame / cuadro 
+        // comenzaremos a mostrar nuevamente el primer frame
+        {
+          cuadro_del_sprite = 0;
+          // reniniciamos el sprite
+          // mostramos el primer cuadro / frame del sprite
+        }
+    }
+  }    
+} 
+
+animacion_con_canvas(); 
+// cuando la página se cargue, ejecutarmos la función  animacion_con_canvas(); 
+
+</script>
+</head>
+<body>
+<canvas id="canvas" width="1000" height="300" style="border:3px solid #ccc;">
+Tu navegador no soporta canvas
+</canvas>
+</body>
+</html>
