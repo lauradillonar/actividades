@@ -1,0 +1,92 @@
+<html lang="en">
+<head>
+	<script language="javascript" type="text/javascript">
+		var ciclos=0;
+		var iteraciones=1;
+ 
+		/* CONTROLES */
+		var KEY_LEFT  = 37;
+		var KEY_UP    = 38;
+		var KEY_RIGHT = 39;
+		var KEY_DOWN  = 40;
+		var aTecla    = [];
+		var nDireccion = 32
+ 
+		window.onload=function(){
+			canvas=document.getElementById("miCanvas");
+			canvas.width = 640;
+			canvas.height= 480;
+			if(canvas && canvas.getContext){
+				ctx = canvas.getContext("2d");
+				if(ctx){
+					imgEscenario= new Image();
+					imgEscenario.src="./Escenario.png";
+					imgEscenario.onload=function(){
+						imagen=new Image();
+						imagen.src="./Sprite.png";
+						imagen.onload=function(){
+							anima();
+						}
+					}
+				}else{
+					alert("Error al crear el contexto");
+				}
+			}
+		}
+		var x=0;
+		function anima(){
+			requestAnimationFrame(anima);
+			if(aTecla[KEY_LEFT] || aTecla[KEY_RIGHT]){
+				if(ciclos>3){
+					if(iteraciones>8){
+						iteraciones=1;
+					}
+					ctx.clearRect(0,0,canvas.width,canvas.height);
+					if(aTecla[KEY_LEFT]){
+						nDireccion=0;
+						x+=13;
+						if(x>=canvas.width) x=0;
+						ctx.drawImage(imgEscenario, 0,0 , imgEscenario.width,imgEscenario.height, -canvas.width+x,0 , canvas.width,canvas.height);
+						ctx.drawImage(imgEscenario, 0,0 , imgEscenario.width,imgEscenario.height, x,0 , canvas.width,canvas.height);
+						ctx.drawImage(imgEscenario, 0,0 , imgEscenario.width,imgEscenario.height, canvas.width+x,0 , canvas.width,canvas.height);
+						ctx.drawImage(imagen, 32*iteraciones,nDireccion , 31,31 , canvas.width/2-64,canvas.height-230, 96,96);
+					}
+					else if(aTecla[KEY_RIGHT]){
+						nDireccion=32;
+						x-=13;
+						if(x<=-canvas.width) x=0;
+						ctx.drawImage(imgEscenario, 0,0 , imgEscenario.width,imgEscenario.height, -canvas.width+x,0 , canvas.width,canvas.height);
+						ctx.drawImage(imgEscenario, 0,0 , imgEscenario.width,imgEscenario.height, x,0 , canvas.width,canvas.height);
+						ctx.drawImage(imgEscenario, 0,0 , imgEscenario.width,imgEscenario.height, canvas.width+x,0 , canvas.width,canvas.height);
+						ctx.drawImage(imagen, 32*iteraciones,nDireccion , 31,31 , canvas.width/2-64,canvas.height-230, 96,96);
+					}
+					iteraciones++;
+					ciclos=0;
+				}else{
+					ciclos++;
+				}
+			}else{
+				ctx.clearRect(0,0,canvas.width,canvas.height);
+				ctx.drawImage(imgEscenario, 0,0 , imgEscenario.width,imgEscenario.height, -canvas.width+x,0 , canvas.width,canvas.height);
+				ctx.drawImage(imgEscenario, 0,0 , imgEscenario.width,imgEscenario.height, x,0 , canvas.width,canvas.height);
+				ctx.drawImage(imgEscenario, 0,0 , imgEscenario.width,imgEscenario.height, canvas.width+x,0 , canvas.width,canvas.height);
+				ctx.drawImage(imagen, 0,nDireccion , 31,31 , canvas.width/2-64,canvas.height-230, 96,96);
+			}
+		}
+ 
+		document.addEventListener("keydown",function(e){
+			aTecla[e.keyCode]=true
+		});
+		document.addEventListener("keyup",function(e){
+			aTecla[e.keyCode]=false;
+			iteraciones=0;
+			ciclos=2;
+		});
+	</script>
+</head>
+<body>
+	
+		<canvas id="miCanvas"></canvas>
+	
+</body>
+</html>
